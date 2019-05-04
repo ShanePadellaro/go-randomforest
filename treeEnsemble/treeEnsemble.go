@@ -40,8 +40,22 @@ func (ensemble *TreeEnsemble) CreateTree() *decisionTree.DecisionTree {
 	shuffle(indexes)
 	rndIndexes := indexes[:ensemble.sampleSize]
 
-	tree := decisionTree.New(ensemble.x.Subset(rndIndexes), ensemble.y.Subset(rndIndexes), ensemble.minLeaf)
+	tree := decisionTree.New(ensemble.x.Subset(rndIndexes), ensemble.y.Subset(rndIndexes), ensemble.minLeaf, nil)
 	return &tree
+}
+
+func (ensemble *TreeEnsemble) Predict() dataframe.DataFrame {
+	predictions := make([]dataframe.DataFrame, 0)
+
+	for _, tree := range ensemble.trees {
+		predictions = append(predictions, tree.Predict())
+
+	}
+
+	for i := 0; i < ensemble.y.Nrow(); i++ {
+
+	}
+	return dataframe.DataFrame{}
 }
 
 func shuffle(indexes []int) {

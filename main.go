@@ -21,4 +21,6 @@ func main() {
 	fmt.Println(df)
 	fmt.Println(randomForest)
 
+	fmt.Println(df.Subset(1))
+
 }
