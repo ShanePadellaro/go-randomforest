@@ -3,9 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"go-test/treeEnsemble"
 	"os"
 
 	"github.com/kniren/gota/dataframe"
+	"github.com/kniren/gota/series"
 )
 
 func main() {
@@ -45,6 +47,27 @@ func main() {
 	reader := bufio.NewReader(file)
 
 	df := dataframe.ReadCSV(reader)
+	y := df.Select([]string{"SalePrice"})
+	x := df.Select([]string{"YearMade", "MachineHoursCurrentMeter"})
 	// fmt.Println(df.Subset([]int{1}))
-	fmt.Println(df.Describe())
+	fmt.Println(x.Describe())
+	fmt.Println(y.Describe())
+
+	noNan := func(s series.Series) series.Series {
+		for i, isNan := range s.IsNaN() {
+			if isNan {
+				s.Set([]int{i}, series.Floats([]float64{-1}))
+			}
+		}
+		return s
+	}
+
+	x.Capply(noNan)
+	y.Capply(noNan)
+	fmt.Println(x.Describe())
+	fmt.Println(y.Describe())
+
+	randomForest := treeEnsemble.New(x, y, 1, 1000, 5)
+	fmt.Println(randomForest)
+
 }

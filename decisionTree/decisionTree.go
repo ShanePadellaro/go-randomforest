@@ -49,5 +49,15 @@ func (tree *DecisionTree) Predict() dataframe.DataFrame {
 }
 
 func (tree *DecisionTree) findVarSplit() {
+	for i := 0; i < tree.c; i++ {
+		tree.findBetterSplit(i)
+	}
+}
 
+func (tree *DecisionTree) findBetterSplit(index int) {
+
+}
+
+func (tree *DecisionTree) isLeaf() bool {
+	return tree.Score == math.Inf(1)
 }
