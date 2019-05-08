@@ -40,7 +40,7 @@ func (ensemble *TreeEnsemble) CreateTree() *decisionTree.DecisionTree {
 	shuffle(indexes)
 	rndIndexes := indexes[:ensemble.sampleSize]
 
-	tree := decisionTree.New(ensemble.x.Subset(rndIndexes), ensemble.y.Subset(rndIndexes), ensemble.minLeaf, nil)
+	tree := decisionTree.New(ensemble.x.Subset(rndIndexes), ensemble.y.Subset(rndIndexes), ensemble.minLeaf, indexes)
 	return &tree
 }
 
